@@ -1,0 +1,10 @@
+parameters:
+  tmpDir: .phpstan-tmp/
+  level: max
+  paths:
+    - bin/
+    - src/
+    - tests/
+  treatPhpDocTypesAsCertain: false
+  ignoreErrors:
+

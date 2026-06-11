@@ -1,0 +1,10 @@
+services:
+  webserver:
+    image: ghcr.io/phppdf/docker-image-php-apache:dev
+    build:
+      context: .
+      dockerfile: .docker/webserver/Dockerfile
+    container_name: phppdf
+    user: app
+    volumes:
+      - ./:/opt/app/

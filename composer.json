@@ -1,0 +1,56 @@
+{
+    "name": "phppdf/phppdf",
+    "description": "",
+    "license": "MIT",
+    "bin": [
+        "bin/phppdf"
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhpPdf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "examples/src/setup-environment.php"
+        ],
+        "psr-4": {
+            "PhpPdf\\": [
+                "tests/benchmarks/",
+                "tests/unit/"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=8.4",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-zlib": "*"
+    },
+    "require-dev": {
+        "phpbench/phpbench": "^1.6",
+        "phppdf/coding-standard": "dev-master",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^13.1"
+    },
+    "scripts": {
+        "phpbench": "php vendor/bin/phpbench run",
+        "phpcs": "php vendor/bin/phpcs -s",
+        "phpcbf": "php vendor/bin/phpcbf",
+        "phpstan": "php vendor/bin/phpstan --memory-limit=256M analyze",
+        "test:benchmarks": "php vendor/bin/phpbench run --report=default --output=html-report",
+        "test:coverage": "XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-html .phpunit-coverage --display-deprecations"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    }
+}

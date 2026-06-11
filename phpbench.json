@@ -1,0 +1,11 @@
+{
+    "runner.bootstrap": "vendor/autoload.php",
+    "runner.path": "tests/benchmarks/",
+    "report.outputs": {
+        "html-report": {
+            "renderer": "html",
+            "path": ".phpbench-report/index.html",
+            "title": "PhpPdf Benchmarks"
+        }
+    }
+}

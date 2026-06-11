@@ -1,0 +1,194 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+foreach ([
+             __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../autoload.php',
+    __DIR__ . '/../../../autoload.php',
+] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+        break;
+    }
+}
+
+use PhpPdf\Builder\PdfDocumentBuilder;
+use PhpPdf\Builder\PdfPageBuilder;
+use PhpPdf\Content\PdfContentStreamBuilder;
+use PhpPdf\Object\PdfHexString;
+use PhpPdf\Object\PdfString;
+use PhpPdf\Output\PdfFileOutput;
+use PhpPdf\Reader\PdfDocumentReader;
+use PhpPdf\Reader\PdfTextExtractor;
+use PhpPdf\Serialization\PdfDocumentSerializer;
+
+function usage(): never
+{
+    echo <<<'USAGE'
+Usage: phppdf <command> [options]
+
+Commands:
+  text  <file.pdf>                        Extract plain text from all pages
+  info  <file.pdf>                        Show version, page count and metadata
+  merge -o <out.pdf> <file1> [file2...]   Merge two or more PDF files
+
+USAGE;
+    exit(1);
+}
+
+function abort(string $message): never
+{
+    fwrite(STDERR, "phppdf: $message\n");
+    exit(1);
+}
+
+function requireFile(string $path): void
+{
+    if (!file_exists($path)) {
+        abort("file not found: $path");
+    }
+}
+
+// ---------------------------------------------------------------------------
+// text
+// ---------------------------------------------------------------------------
+
+function cmd_text(array $args): void
+{
+    if (count($args) !== 1) {
+        abort('Usage: phppdf text <file.pdf>');
+    }
+
+    requireFile($args[0]);
+
+    $doc       = PdfDocumentReader::open($args[0]);
+    $extractor = new PdfTextExtractor($doc);
+    $pages     = $doc->getPageCount();
+
+    for ($i = 0; $i < $pages; $i++) {
+        if ($pages > 1) {
+            echo "--- Page " . ($i + 1) . " of $pages ---\n";
+        }
+        echo $extractor->getTextForPage($i) . "\n";
+    }
+}
+
+// ---------------------------------------------------------------------------
+// info
+// ---------------------------------------------------------------------------
+
+function cmd_info(array $args): void
+{
+    if (count($args) !== 1) {
+        abort('Usage: phppdf info <file.pdf>');
+    }
+
+    requireFile($args[0]);
+
+    $doc = PdfDocumentReader::open($args[0]);
+
+    printf("File:    %s\n", $args[0]);
+    printf("Version: PDF %s\n", $doc->getVersion()->value);
+    printf("Pages:   %d\n", $doc->getPageCount());
+
+    $info = $doc->getInfo();
+    if ($info === null) {
+        return;
+    }
+
+    $fields = ['Title', 'Author', 'Subject', 'Keywords', 'Creator', 'Producer', 'CreationDate', 'ModDate'];
+
+    foreach ($fields as $field) {
+        $val = $info->get($field);
+        if ($val === null) {
+            continue;
+        }
+
+        $text = match (true) {
+            $val instanceof PdfString    => $val->getValue(),
+            $val instanceof PdfHexString => $val->getBinary(),
+            default                      => null,
+        };
+
+        if ($text !== null && $text !== '') {
+            printf("%-12s %s\n", "$field:", $text);
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// merge
+// ---------------------------------------------------------------------------
+
+function cmd_merge(array $args): void
+{
+    $output = null;
+    $inputs = [];
+
+    for ($i = 0, $n = count($args); $i < $n; $i++) {
+        if ($args[$i] === '-o') {
+            if (!isset($args[$i + 1])) {
+                abort('Missing output path after -o');
+            }
+            $output = $args[++$i];
+        } else {
+            $inputs[] = $args[$i];
+        }
+    }
+
+    if ($output === null) {
+        abort('Usage: phppdf merge -o <out.pdf> <file1> [file2...]');
+    }
+    if (count($inputs) < 2) {
+        abort('Merge requires at least two input files');
+    }
+
+    foreach ($inputs as $input) {
+        requireFile($input);
+    }
+
+    $builder = new PdfDocumentBuilder();
+
+    foreach ($inputs as $inputFile) {
+        $srcDoc    = PdfDocumentReader::open($inputFile);
+        $pageCount = $srcDoc->getPageCount();
+
+        for ($i = 0; $i < $pageCount; $i++) {
+            $srcPage = $srcDoc->getPage($i);
+            [$llx, $lly, $urx, $ury] = $srcPage->getMediaBox();
+            $w = (int) round($urx - $llx);
+            $h = (int) round($ury - $lly);
+
+            $builder->page(function (PdfPageBuilder $page) use ($srcPage, $w, $h): void {
+                $page
+                    ->size($w, $h)
+                    ->useImportedPage('P', $srcPage)
+                    ->content(function (PdfContentStreamBuilder $s): void {
+                        $s->drawImportedPage('P');
+                    });
+            });
+        }
+    }
+
+    $doc = $builder->build();
+    (new PdfDocumentSerializer(new PdfFileOutput($output)))->writeDocument($doc);
+
+    echo "Written: $output\n";
+}
+
+// ---------------------------------------------------------------------------
+// Dispatch
+// ---------------------------------------------------------------------------
+
+if ($argc < 2) {
+    usage();
+}
+
+match ($argv[1]) {
+    'text'  => cmd_text(array_slice($argv, 2)),
+    'info'  => cmd_info(array_slice($argv, 2)),
+    'merge' => cmd_merge(array_slice($argv, 2)),
+    default => usage(),
+};
