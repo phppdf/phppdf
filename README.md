@@ -9,8 +9,7 @@ full set of PDF graphics operators — paths, text, images, color spaces, gradie
 helpers (text flow, tables, barcodes, QR codes, SVG rendering) sit on top for common tasks. You get fine-grained control
 when you need it and convenience when you don't.
 
-No composer dependencies are required beyond three standard PHP extensions: `ext-gd` for image handling, `ext-mbstring`
-for text encoding, and `ext-openssl` for encryption and signing.
+No composer dependencies are required beyond standard PHP extensions.
 
 ## Features
 
@@ -129,9 +128,12 @@ for text encoding, and `ext-openssl` for encryption and signing.
 ## Requirements
 
 - PHP 8.4+
+- `ext-dom` (html to pdf)
 - `ext-gd` (images)
+- `ext-libxml` (svg and html)
 - `ext-mbstring` (text encoding)
 - `ext-openssl` (encryption and signing)
+- `ext-zlib` (reading and writing)
 
 ## Installation
 
