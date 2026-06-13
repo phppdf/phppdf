@@ -1,0 +1,64 @@
+name: "Documentation"
+
+on:
+  workflow_call:
+  pull_request:
+    branches:
+      - "master"
+    paths:
+      - ".github/workflows/documentation.yml"
+      - "docs/**"
+  push:
+    branches:
+      - "master"
+    paths:
+      - ".github/workflows/documentation.yml"
+      - "docs/**"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: "Build documentation site"
+    runs-on: "ubuntu-22.04"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Set up Hugo"
+        uses: "peaceiris/actions-hugo@v3"
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: "Build site"
+        run: |
+          hugo --minify --source docs --destination ../public
+
+      - name: "Upload Pages artifact"
+        uses: "actions/upload-pages-artifact@v3"
+        with:
+          path: "public"
+
+  deploy:
+    name: "Deploy to GitHub Pages"
+    if: "github.ref == 'refs/heads/master' && github.event_name == 'push'"
+    needs: "build"
+    runs-on: "ubuntu-22.04"
+
+    environment:
+      name: "github-pages"
+      url: "${{ steps.deployment.outputs.page_url }}"
+
+    steps:
+      - name: "Deploy to GitHub Pages"
+        id: "deployment"
+        uses: "actions/deploy-pages@v4"
