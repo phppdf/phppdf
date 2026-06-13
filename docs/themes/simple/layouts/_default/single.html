@@ -1,0 +1,9 @@
+{{ define "main" }}
+<article class="doc">
+  {{ with .CurrentSection }}{{ if not .IsHome }}<p class="eyebrow">{{ .Title }}</p>{{ end }}{{ end }}
+  <h1>{{ .Title }}</h1>
+  <div class="prose">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

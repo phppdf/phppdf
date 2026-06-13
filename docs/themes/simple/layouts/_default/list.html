@@ -1,0 +1,21 @@
+{{ define "main" }}
+<article class="doc">
+  {{ with .CurrentSection }}{{ if not .IsHome }}<p class="eyebrow">{{ .Title }}</p>{{ end }}{{ end }}
+  <h1>{{ .Title }}</h1>
+  <div class="prose">
+    {{ .Content }}
+  </div>
+  {{ if .Pages }}
+    <div class="cards">
+      {{ range .Pages.ByWeight }}
+        <div class="card-wrap">
+          <a class="card" href="{{ .RelPermalink }}">
+            <span class="card-index">{{ printf "%02d" (div .Weight 10) }}</span>
+            <span class="card-title">{{ .Title }}</span>
+          </a>
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>
+{{ end }}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }} &middot; {{ .Site.Params.tagline }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title>
+  {{ with .Site.Params.tagline }}<meta name="description" content="{{ . }}">{{ end }}
+  <link rel="icon" href="{{ "logo.svg" | relURL }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+  <script>
+    (function () {
+      if (localStorage.getItem('phppdf-docs-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <label for="nav-toggle" class="nav-burger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </label>
+      <a href="{{ .Site.Home.RelPermalink }}" class="brand">
+        <img src="{{ "logo.svg" | relURL }}" alt="" class="brand-logo">
+        <span class="brand-name">phppdf</span>
+        <span class="brand-tag">Docs</span>
+      </a>
+      <p class="topbar-tagline">{{ .Site.Params.tagline }}</p>
+      <a class="topbar-source" href="https://github.com/phppdf/phppdf" target="_blank" rel="noopener">Source &#8599;</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      {{ partial "nav.html" . }}
+    </aside>
+    <main class="content">
+      {{ block "main" . }}{{ end }}
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <div class="colophon-inner">
+      <p class="footer-brand"><strong>phppdf</strong> &nbsp;&middot;&nbsp; PHP PDF Library</p>
+      <p class="footer-brand">Documentation</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = 'phppdf-docs-theme';
+      var root = document.documentElement;
+      var toggle = document.getElementById('theme-toggle');
+
+      toggle.addEventListener('click', function () {
+        var current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        if (next === 'dark') {
+          root.removeAttribute('data-theme');
+        } else {
+          root.setAttribute('data-theme', 'light');
+        }
+        localStorage.setItem(STORAGE_KEY, next);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14171e"/>
+      <stop offset="100%" stop-color="#0c0e13"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e8eaef"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="200" height="200" fill="url(#bg)"/>
+
+  <!-- Page — sized to sit comfortably inside the GitHub circle crop -->
+  <g filter="url(#shadow)">
+    <path d="M44,28 L131,28 L159,56 L159,172 L44,172 Z" fill="url(#page)"/>
+  </g>
+
+  <!-- Dog-ear fold -->
+  <path d="M131,28 L159,56 L131,56 Z" fill="#c4c7cf"/>
+  <!-- Fold crease lines -->
+  <line x1="131" y1="28" x2="131" y2="56" stroke="#adb0b8" stroke-width="0.75"/>
+  <line x1="131" y1="56" x2="159" y2="56" stroke="#adb0b8" stroke-width="0.75"/>
+
+  <!-- Content lines — text simulation -->
+  <rect x="60" y="76" width="74" height="3.5" rx="1.75" fill="#c2c5ce"/>
+  <rect x="60" y="87" width="74" height="3.5" rx="1.75" fill="#c2c5ce"/>
+  <rect x="60" y="98" width="50" height="3.5" rx="1.75" fill="#c2c5ce"/>
+
+  <!-- ─── Bezier curve ───────────────────────────────────────────────
+       A cubic bezier representing a PDF path operator — the visual
+       anchor of the mark and the conceptual heart of the library.
+  ──────────────────────────────────────────────────────────────────── -->
+
+  <!-- Control-point handles (dashed, vector-editor aesthetic) -->
+  <line x1="61" y1="134" x2="78" y2="110"
+        stroke="#e03030" stroke-width="1.1"
+        stroke-dasharray="3 2.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="149" y1="124" x2="120" y2="152"
+        stroke="#e03030" stroke-width="1.1"
+        stroke-dasharray="3 2.5" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- Control-point circles -->
+  <circle cx="78" cy="110" r="2.8"
+          fill="none" stroke="#e03030" stroke-width="1.5" opacity="0.65"/>
+  <circle cx="120" cy="152" r="2.8"
+          fill="none" stroke="#e03030" stroke-width="1.5" opacity="0.65"/>
+
+  <!-- The curve itself -->
+  <path d="M61,134 C78,110 120,152 149,124"
+        fill="none"
+        stroke="#e03030"
+        stroke-width="3.5"
+        stroke-linecap="round"/>
+
+  <!-- Anchor point squares (classic vector-app language) -->
+  <rect x="57.5" y="130.5" width="7" height="7" rx="1.2"
+        fill="#e03030"/>
+  <rect x="145.5" y="120.5" width="7" height="7" rx="1.2"
+        fill="#e03030"/>
+
+  <!-- Label — readable at large sizes, fades gracefully small -->
+  <text x="101.5" y="160"
+        font-family="'Courier New', Courier, monospace"
+        font-size="10.5"
+        font-weight="700"
+        fill="#7a7e89"
+        text-anchor="middle"
+        letter-spacing="1">phppdf</text>
+</svg>

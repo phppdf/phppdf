@@ -1,0 +1,15 @@
+baseURL = "https://waltertamboer.github.io/phppdf/"
+languageCode = "en-us"
+title = "phppdf"
+theme = "simple"
+
+[params]
+  tagline = "A PHP library for programmatic PDF generation and manipulation"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  style = "github-dark"
+  noClasses = true
+  lineNos = false

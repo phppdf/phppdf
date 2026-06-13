@@ -1,0 +1,29 @@
+{{ $page := . }}
+{{ $docs := .Site.GetPage "/docs" }}
+<p class="sidebar-label">Documentation</p>
+<nav class="toc" aria-label="Documentation sections">
+  <ul class="sidebar-nav">
+    {{ range $docs.Pages.ByWeight }}
+      {{ if .Pages }}
+        <li class="toc-section">
+          <details {{ if or ($page.IsDescendant .) (eq $page.RelPermalink .RelPermalink) }}open{{ end }}>
+            <summary>
+              <span>{{ .Title }}</span>
+            </summary>
+            <ul>
+              {{ range .Pages.ByWeight }}
+                <li>
+                  <a href="{{ .RelPermalink }}"{{ if eq $page.RelPermalink .RelPermalink }} class="active" aria-current="page"{{ end }}>{{ .Title }}</a>
+                </li>
+              {{ end }}
+            </ul>
+          </details>
+        </li>
+      {{ else }}
+        <li class="toc-page">
+          <a href="{{ .RelPermalink }}"{{ if eq $page.RelPermalink .RelPermalink }} class="active" aria-current="page"{{ end }}>{{ .Title }}</a>
+        </li>
+      {{ end }}
+    {{ end }}
+  </ul>
+</nav>

@@ -1,0 +1,35 @@
+{{ define "main" }}
+<article class="doc home">
+  <div class="home-hero">
+    <svg class="home-hero-curve" viewBox="0 0 1400 160" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M-60,140 C220,10 780,160 1100,40 C1250,-10 1350,60 1460,30"
+            fill="none" stroke="var(--accent)" stroke-opacity="0.055" stroke-width="72" stroke-linecap="round"/>
+      <line x1="-60" y1="140" x2="220" y2="10" stroke="var(--accent)" stroke-opacity="0.04" stroke-width="1.2"/>
+      <line x1="1100" y1="40" x2="780" y2="160" stroke="var(--accent)" stroke-opacity="0.04" stroke-width="1.2"/>
+      <circle cx="220" cy="10"  r="4" fill="none" stroke="var(--accent)" stroke-opacity="0.1" stroke-width="1.4"/>
+      <circle cx="780" cy="160" r="4" fill="none" stroke="var(--accent)" stroke-opacity="0.1" stroke-width="1.4"/>
+      <rect x="-64"  y="136" width="8" height="8" rx="1.2" fill="var(--accent)" fill-opacity="0.22"/>
+      <rect x="1096" y="36"  width="8" height="8" rx="1.2" fill="var(--accent)" fill-opacity="0.22"/>
+    </svg>
+    <p class="eyebrow">Documentation</p>
+    <h1>{{ .Title }}</h1>
+  </div>
+  <div class="prose">
+    {{ .Content }}
+  </div>
+
+  {{ $docs := .Site.GetPage "/docs" }}
+  {{ if $docs }}
+    <div class="cards">
+      {{ range $docs.Pages.ByWeight }}
+        <div class="card-wrap">
+          <a class="card" href="{{ .RelPermalink }}">
+            <span class="card-index">{{ printf "%02d" (div .Weight 10) }}</span>
+            <span class="card-title">{{ .Title }}</span>
+          </a>
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>
+{{ end }}
