@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
   pages: write
   id-token: write
 
@@ -33,15 +34,18 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - name: "Set up Hugo"
-        uses: "peaceiris/actions-hugo@v3"
+      - name: "Log in to GitHub Container Registry"
+        uses: "docker/login-action@v3"
         with:
-          hugo-version: "latest"
-          extended: true
+          registry: "ghcr.io"
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: "Build site"
         run: |
-          hugo --minify --source docs --destination ../public
+          docker run --rm -v "${{ github.workspace }}:/src" -w /src \
+            ghcr.io/phppdf/docker-image-hugo:dev \
+            --minify --source docs --destination ../public --themesDir /hugo-themes
 
       - name: "Upload Pages artifact"
         uses: "actions/upload-pages-artifact@v3"
