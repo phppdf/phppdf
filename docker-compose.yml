@@ -1,19 +1,17 @@
 services:
-  webserver:
+  examples-webserver:
     image: ghcr.io/phppdf/docker-image-php-apache:dev
     build:
       context: .
       dockerfile: .docker/webserver/Dockerfile
-    container_name: phppdf
+    container_name: phppdf-examples
     user: app
     volumes:
       - ./:/opt/app/
 
-  hugo:
-    build:
-      context: .
-      dockerfile: .docker/hugo/Dockerfile
-    container_name: phppdf-hugo
+  docs-webserver:
+    image: ghcr.io/phppdf/docker-image-hugo:dev
+    container_name: phppdf-docs
     volumes:
       - ./:/src
     ports:
