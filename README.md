@@ -11,6 +11,61 @@ when you need it and convenience when you don't.
 
 No composer dependencies are required beyond standard PHP extensions.
 
+---
+
+## Requirements
+
+- PHP 8.4+
+- `ext-dom` (html to pdf)
+- `ext-gd` (images)
+- `ext-libxml` (svg and html)
+- `ext-mbstring` (text encoding)
+- `ext-openssl` (encryption and signing)
+- `ext-zlib` (reading and writing)
+
+## Installation
+
+```bash
+composer require phppdf/phppdf
+```
+
+## Documentation
+
+The documentation can be found here: https://phppdf.github.io/phppdf/
+
+## Quick start
+
+```php
+use PhpPdf\Builder\PdfDocumentBuilder;
+use PhpPdf\Builder\PdfPageBuilder;
+use PhpPdf\Builder\PdfPageSize;
+use PhpPdf\Content\Matrix;
+use PhpPdf\Content\PdfContentStreamBuilder;
+use PhpPdf\Output\PdfMemoryOutput;
+use PhpPdf\Serialization\PdfDocumentSerializer;
+
+$document = (new PdfDocumentBuilder())
+    ->page(function (PdfPageBuilder $page): void {
+        $page
+            ->size(...PdfPageSize::A4)
+            ->useType1Font('F1', 'Helvetica')
+            ->content(function (PdfContentStreamBuilder $s): void {
+                $s->beginText()
+                  ->setFont('F1', 24)
+                  ->setTextMatrix(Matrix::translate(72, 720))
+                  ->showText('Hello World')
+                  ->endText();
+            });
+    })
+    ->build();
+
+$output = new PdfMemoryOutput();
+(new PdfDocumentSerializer($output))->writeDocument($document);
+
+header('Content-Type: application/pdf');
+echo $output->getContent();
+```
+
 ## Features
 
 ### Building PDFs
@@ -122,57 +177,6 @@ No composer dependencies are required beyond standard PHP extensions.
 - `phppdf text` — extract plain text from a file
 - `phppdf info` — print version, page count, and metadata
 - `phppdf merge` — combine multiple files into one
-
----
-
-## Requirements
-
-- PHP 8.4+
-- `ext-dom` (html to pdf)
-- `ext-gd` (images)
-- `ext-libxml` (svg and html)
-- `ext-mbstring` (text encoding)
-- `ext-openssl` (encryption and signing)
-- `ext-zlib` (reading and writing)
-
-## Installation
-
-```bash
-composer require phppdf/phppdf
-```
-
-## Quick start
-
-```php
-use PhpPdf\Builder\PdfDocumentBuilder;
-use PhpPdf\Builder\PdfPageBuilder;
-use PhpPdf\Builder\PdfPageSize;
-use PhpPdf\Content\Matrix;
-use PhpPdf\Content\PdfContentStreamBuilder;
-use PhpPdf\Output\PdfMemoryOutput;
-use PhpPdf\Serialization\PdfDocumentSerializer;
-
-$document = (new PdfDocumentBuilder())
-    ->page(function (PdfPageBuilder $page): void {
-        $page
-            ->size(...PdfPageSize::A4)
-            ->useType1Font('F1', 'Helvetica')
-            ->content(function (PdfContentStreamBuilder $s): void {
-                $s->beginText()
-                  ->setFont('F1', 24)
-                  ->setTextMatrix(Matrix::translate(72, 720))
-                  ->showText('Hello World')
-                  ->endText();
-            });
-    })
-    ->build();
-
-$output = new PdfMemoryOutput();
-(new PdfDocumentSerializer($output))->writeDocument($document);
-
-header('Content-Type: application/pdf');
-echo $output->getContent();
-```
 
 ---
 
