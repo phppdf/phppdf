@@ -1,10 +1,11 @@
 baseURL = "https://phppdf.github.io/phppdf/"
 languageCode = "en-us"
 title = "phppdf"
-theme = "simple"
+theme = "phppdf-docs"
 
 [params]
   tagline = "A PHP library for programmatic PDF generation and manipulation"
+  sourceURL = "https://github.com/phppdf/phppdf"
 
 [markup.goldmark.renderer]
   unsafe = true
