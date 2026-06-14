@@ -1,4 +1,4 @@
-baseURL = "https://waltertamboer.github.io/phppdf/"
+baseURL = "https://phppdf.github.io/phppdf/"
 languageCode = "en-us"
 title = "phppdf"
 theme = "simple"
