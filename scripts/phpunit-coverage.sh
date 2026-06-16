@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker compose exec -w /opt/app/ webserver composer test:coverage
+docker run --rm -t -v ./:/app ghcr.io/phppdf/docker-image-php-cli:dev composer phpunit:coverage

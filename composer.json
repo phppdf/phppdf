@@ -11,9 +11,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "examples/src/setup-environment.php"
-        ],
         "psr-4": {
             "PhpPdf\\": [
                 "tests/benchmarks/",
@@ -40,12 +37,12 @@
         "phpunit/phpunit": "^13.1"
     },
     "scripts": {
-        "phpbench": "php vendor/bin/phpbench run",
         "phpcs": "php vendor/bin/phpcs -s",
         "phpcbf": "php vendor/bin/phpcbf",
         "phpstan": "php vendor/bin/phpstan --memory-limit=256M analyze",
-        "test:benchmarks": "php vendor/bin/phpbench run --report=default --output=html-report",
-        "test:coverage": "XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-html .phpunit-coverage --display-deprecations"
+        "phpbench": "php vendor/bin/phpbench run --report=default --output=html-report",
+        "phpunit": "php vendor/bin/phpunit --display-deprecations",
+        "phpunit:coverage": "XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-html .phpunit-coverage --display-deprecations"
     },
     "config": {
         "allow-plugins": {

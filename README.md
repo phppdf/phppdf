@@ -16,9 +16,9 @@ No composer dependencies are required beyond standard PHP extensions.
 ## Requirements
 
 - PHP 8.4+
-- `ext-dom` (html to pdf)
+- `ext-dom` (svg)
 - `ext-gd` (images)
-- `ext-libxml` (svg and html)
+- `ext-libxml` (svg)
 - `ext-mbstring` (text encoding)
 - `ext-openssl` (encryption and signing)
 - `ext-zlib` (reading and writing)

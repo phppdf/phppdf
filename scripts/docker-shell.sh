@@ -1,4 +1,3 @@
 #!/bin/bash
 
-docker compose up -d
-docker compose exec webserver bash
+docker run --rm -it -v ./:/app ghcr.io/phppdf/docker-image-php-cli:dev bash
