@@ -6,5 +6,3 @@ parameters:
     - src/
     - tests/
   treatPhpDocTypesAsCertain: false
-  ignoreErrors:
-
