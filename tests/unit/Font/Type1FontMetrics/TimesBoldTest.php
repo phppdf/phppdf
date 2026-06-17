@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Type1FontMetrics;
+namespace PhpPdf\Font\Type1FontMetrics;
 
 use PhpPdf\Font\Type1FontMetrics;
 use PHPUnit\Framework\Attributes\CoversClass;

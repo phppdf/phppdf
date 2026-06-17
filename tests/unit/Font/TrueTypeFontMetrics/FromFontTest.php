@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TrueTypeFontMetrics;
+namespace PhpPdf\Font\TrueTypeFontMetrics;
 
 use PhpPdf\Font\MinimalFontBuilder;
 use PhpPdf\Font\TrueTypeFont;
