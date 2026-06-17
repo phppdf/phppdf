@@ -54,7 +54,9 @@
         "phpunit:coverage": "XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-html .phpunit-coverage --display-deprecations"
     },
     "suggest": {
-        "phppdf/html-converter": "Convert HTML/CSS markup into PhpPdf documents."
+        "phppdf/html-converter": "Convert HTML/CSS markup into phppdf documents.",
+        "phppdf/markdown-converter": "Convert Markdown markup into phppdf documents.",
+        "phppdf/tex-hyphenation": "Knuth-Liang TeX hyphenation algorithm for phppdf"
     },
     "authors": [
         {
