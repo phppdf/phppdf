@@ -1,8 +1,8 @@
 # phppdf
 
 ## Execution
-- To run php: `docker compose exec webserver php`
-- To run unit tests: `docker compose exec webserver composer test:coverage`
+- To run php: `./scripts/php`
+- To run unit tests: `./scripts/composer test:coverage`
 
 ## Code Principles
 - Apply SOLID principles where they improve maintainability
