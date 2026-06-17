@@ -37,13 +37,23 @@
         "phpunit/phpunit": "^13.1"
     },
     "scripts": {
-        "phpcs": "php vendor/bin/phpcs -s",
-        "phpcbf": "php vendor/bin/phpcbf",
-        "phpstan": "php vendor/bin/phpstan --memory-limit=256M analyze",
         "phpbench": "php vendor/bin/phpbench run --report=default --output=html-report",
+        "phpcbf": "php vendor/bin/phpcbf",
+        "phpcs": "php vendor/bin/phpcs -s",
+        "phpstan": "php vendor/bin/phpstan --memory-limit=256M analyze",
         "phpunit": "php vendor/bin/phpunit --display-deprecations",
         "phpunit:coverage": "XDEBUG_MODE=coverage php vendor/bin/phpunit --coverage-html .phpunit-coverage --display-deprecations"
     },
+    "suggest": {
+        "phppdf/html-converter": "Convert HTML/CSS markup into PhpPdf documents."
+    },
+    "authors": [
+        {
+            "name": "Walter Tamboer",
+            "role": "Maintainer",
+            "homepage": "https://waltertamboer.nl"
+        }
+    ],
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
