@@ -1,7 +1,16 @@
 {
     "name": "phppdf/phppdf",
-    "description": "",
+    "description": "A pure PHP library for creating and processing PDF files.",
+    "type": "library",
     "license": "MIT",
+    "homepage": "https://phppdf.github.io/phppdf/",
+    "keywords": [
+        "pdf"
+    ],
+    "support": {
+        "issues": "https://github.com/phppdf/phppdf/issues",
+        "source": "https://github.com/phppdf/phppdf"
+    },
     "bin": [
         "bin/phppdf"
     ],
