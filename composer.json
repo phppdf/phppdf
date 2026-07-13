@@ -38,7 +38,7 @@
     },
     "require-dev": {
         "phpbench/phpbench": "^1.6",
-        "phppdf/coding-standard": "dev-master",
+        "phppdf/coding-standard": "^1.0",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
